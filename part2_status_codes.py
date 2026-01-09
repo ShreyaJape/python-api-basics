@@ -15,7 +15,7 @@ print("=== Understanding Status Codes ===\n")
 
 # Example 1: Successful request (200 OK)
 print("--- Example 1: Valid Request ---")
-url_valid = "https://jsonplaceholder.typicode.com/posts/1"
+url_valid = "https://jsonplaceholder.typicode.com/posts/5"
 response = requests.get(url_valid)
 
 print(f"URL: {url_valid}")
@@ -40,6 +40,7 @@ response = requests.get(url)
 
 # Convert response to Python dictionary
 data = response.json()
+
 
 # Access specific fields
 print(f"Full Name: {data['name']}")
@@ -74,6 +75,26 @@ status_codes = {
 
 for code, meaning in status_codes.items():
     print(f"  {code}: {meaning}")
+
+
+response = requests.get(url)
+if response.status_code == 200:    #404
+    data = response.json()
+    print(data)
+else:
+    print("resourse not found")
+
+print("-----count comments in url--------")
+url = "https://jsonplaceholder.typicode.com/posts/1/comments"
+response = requests.get(url)
+
+if response.status_code == 200:
+    comments = response.json()
+    count = len(comments)
+    print(f"number of comments on url is {count}")
+else:
+    print("invalid")
+
 
 
 # --- EXERCISES ---

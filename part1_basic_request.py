@@ -11,7 +11,7 @@ We'll use JSONPlaceholder - a free fake API for testing.
 import requests
 
 # Step 1: Define the API URL
-url = "https://jsonplaceholder.typicode.com/posts/1"
+url = "https://jsonplaceholder.typicode.com/users"
 
 # Step 2: Make a GET request
 response = requests.get(url)
@@ -28,7 +28,7 @@ print(response.json())
 # Try these on your own:
 #
 # Exercise 1: Change the URL to fetch post number 5
-#             Hint: Change /posts/1 to /posts/5
+#             Hint: Change /posts/1 t.pyo /posts/5
 #
 # Exercise 2: Fetch a list of all users
 #             URL: https://jsonplaceholder.typicode.com/users

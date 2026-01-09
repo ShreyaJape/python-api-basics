@@ -144,6 +144,21 @@ def main():
 if __name__ == "__main__":
     main()
 
+import time
+
+def safe_api_request_with_retry(url, retries=3):
+    for attempt in range(retries):
+        try:
+            response = requests.get(url, timeout=5)
+            response.raise_for_status()
+            return {"success": True, "data": response.json()}
+
+        except RequestException:
+            print(f"Attempt {attempt + 1} failed. Retrying...")
+            time.sleep(1)
+
+    return {"success": False, "error": "All retries failed"}
+
 
 # --- EXERCISES ---
 #

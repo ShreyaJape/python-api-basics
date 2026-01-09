@@ -26,6 +26,10 @@ CITIES = {
     "london": (51.5074, -0.1278),
     "tokyo": (35.6762, 139.6503),
     "sydney": (-33.8688, 151.2093),
+    #   Newly added cities
+    "pune": (18.5204, 73.8567),
+    "nagpur": (21.1458, 79.0882),
+    "jaipur": (26.9124, 75.7873),
 }
 
 # Popular cryptocurrencies
@@ -252,3 +256,5 @@ if __name__ == "__main__":
 #             Use environment variables:
 #             import os
 #             api_key = os.environ.get("OPENWEATHER_API_KEY")
+
+

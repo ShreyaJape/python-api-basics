@@ -18,6 +18,10 @@ def get_user_info():
 
     user_id = input("Enter user ID (1-10): ")
 
+    if not user_id.isdigit():
+        print("invalid user id, please enter valid user id")
+        
+
     url = f"https://jsonplaceholder.typicode.com/users/{user_id}"
     response = requests.get(url)
 
@@ -38,6 +42,9 @@ def search_posts():
 
     user_id = input("Enter user ID to see their posts (1-10): ")
 
+    if not user_id.isdigit():
+        print("please enter valid user id in digits")
+    user_id = int(user_id)   
     # Using query parameters
     url = "https://jsonplaceholder.typicode.com/posts"
     params = {"userId": user_id}
@@ -76,6 +83,89 @@ def get_crypto_price():
         print("Try: btc-bitcoin, eth-ethereum, doge-dogecoin")
 
 
+# Exercise 1 
+def get_city_coordinates(city):
+    """
+    Convert city name to latitude and longitude
+    using Open-Meteo Geocoding API.
+    """
+    url = "https://geocoding-api.open-meteo.com/v1/search"
+    params = {
+        "name": city,
+        "count": 1
+    }
+
+    response = requests.get(url, params=params)
+
+    if response.status_code != 200:
+        return None, None
+
+    data = response.json()
+
+    if "results" not in data:
+        return None, None
+
+    latitude = data["results"][0]["latitude"]
+    longitude = data["results"][0]["longitude"]
+
+    return latitude, longitude
+
+def get_weather():
+    """Fetch current weather for a city."""
+    print("\n=== Weather Checker ===\n")
+
+    city = input("Enter city name: ").strip()
+
+    latitude, longitude = get_city_coordinates(city)
+
+    if latitude is None:
+        print("City not found!")
+        return
+
+    url = "https://api.open-meteo.com/v1/forecast"
+    params = {
+        "latitude": latitude,
+        "longitude": longitude,
+        "current_weather": "true"
+    }
+
+    response = requests.get(url, params=params)
+
+    if response.status_code == 200:
+        weather = response.json()["current_weather"]
+
+        print(f"\n--- Weather in {city.title()} ---")
+        print(f"Temperature: {weather['temperature']}°C")
+        print(f"Wind Speed: {weather['windspeed']} km/h")
+        print(f"Weather Code: {weather['weathercode']}")
+    else:
+        print("Failed to fetch weather data.")
+
+# Excercise 2
+    print("----Todo search----------")
+def todo_search():
+    status = input("Enter the value (true/false) :").lower()
+    url = "https://jsonplaceholder.typicode.com/todos"
+    # Query parameter
+    params = {"completed": status}
+
+    response = requests.get(url,params=params)
+    todos = response.json()
+
+# Print result
+    print(f"\nNumber of todos with completed = {status}: {len(todos)}\n")
+
+# Print first 5 todos
+    for i, todo in enumerate(todos[:5], 1):
+        print(f"{i}. {todo['title']}")
+
+
+
+
+
+
+
+
 def main():
     """Main menu for the program."""
     print("=" * 40)
@@ -87,9 +177,12 @@ def main():
         print("1. Look up user info")
         print("2. Search posts by user")
         print("3. Check crypto price")
-        print("4. Exit")
+        print("4. weather info")
+        print("5. todo search")
+        print("6. Exit")
+        
 
-        choice = input("\nEnter choice (1-4): ")
+        choice = input("\nEnter choice (1-6): ")
 
         if choice == "1":
             get_user_info()
@@ -98,7 +191,10 @@ def main():
         elif choice == "3":
             get_crypto_price()
         elif choice == "4":
-            print("\nGoodbye!")
+            get_weather()
+        elif choice == "5":
+            todo_search()
+        elif choice == "6":
             break
         else:
             print("Invalid choice. Please try again.")
